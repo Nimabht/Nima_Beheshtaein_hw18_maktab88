@@ -50,15 +50,24 @@ export default (user) => {
           "Password must be at most {#limit} characters long",
         "any.required": "Password is required",
       }),
-    repeat_password: Joi.ref("password").messages({
-      "any.only": "Passwords must match",
-    }),
-    gender: Joi.string().min(3).max(50).default("not-set").messages({
-      "string.base": "Gender must be a string",
-      "string.min":
-        "Gender must be at least {#limit} characters long",
-      "string.max": "Gender must be at most {#limit} characters long",
-    }),
+    repeat_password: Joi.any()
+      .valid(Joi.ref("password"))
+      .required()
+      .messages({
+        "any.only": "password confirmation and password don't match ",
+      }),
+    gender: Joi.string()
+      .min(3)
+      .max(50)
+      .valid("man", "woman")
+      .default("not-set")
+      .messages({
+        "string.base": "Gender must be a string",
+        "string.min":
+          "Gender must be at least {#limit} characters long",
+        "string.max":
+          "Gender must be at most {#limit} characters long",
+      }),
     role: Joi.string()
       .valid("user", "admin")
       .default("user")
