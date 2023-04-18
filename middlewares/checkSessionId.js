@@ -11,8 +11,7 @@ export default async (req, res, next) => {
     _id: sessionId,
   });
   if (!resultFromDB) {
-    const ex = new AppError("Unauthorized", "fail", 401);
-    return next(ex);
+    return res.status(401).redirect("/login");
   }
   next();
 };
