@@ -25,4 +25,8 @@ export default {
     req.session.user = { username: user.username, _id: user._id };
     res.status(202).end();
   },
+  logoutUser: (req, res, next) => {
+    req.session.destroy();
+    res.status(200).end();
+  },
 };
