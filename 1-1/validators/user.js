@@ -119,7 +119,7 @@ export default {
       gender: Joi.string()
         .min(3)
         .max(50)
-        .valid("man", "woman")
+        .valid("man", "woman", "not-set")
         .default("not-set")
         .messages({
           "string.base": "Gender must be a string",
