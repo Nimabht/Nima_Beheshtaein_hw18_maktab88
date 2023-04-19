@@ -1,11 +1,13 @@
 import { User } from "./../models/user.js";
-import validateUser from "../validators/user.js";
+import validators from "../validators/user.js";
 import AppError from "../utils/AppError.js";
 import bcrypt from "bcrypt";
 import session from "express-session";
 export default {
   createUser: async (req, res, next) => {
-    const { error, value } = validateUser(req.body);
+    const { error, value } = validators.validateUserForSignup(
+      req.body
+    );
     if (!!error) {
       const ex = new AppError(error.details[0].message, "fail", 400);
       return next(ex);
@@ -41,7 +43,9 @@ export default {
     res.send(req.user);
   },
   updateUser: async (req, res, next) => {
-    const { error, value } = validateUser(req.body);
+    const { error, value } = validators.validateUserForUpdate(
+      req.body
+    );
     if (!!error) {
       const ex = new AppError(error.details[0].message, "fail", 400);
       return next(ex);
@@ -55,19 +59,15 @@ export default {
       const ex = new AppError("Use another username.", "fail", 400);
       return next(ex);
     }
-    const { firstname, lastname, username, password, gender, role } =
-      value;
+    const { firstname, lastname, username, gender, role } = value;
     const user = req.user;
     user.set({
       firstname: firstname,
       lastname: lastname,
       username: username,
-      password: password,
       gender: gender,
       role: role,
     });
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
     await user.save();
     const filteredUser = { ...user.toObject() };
     delete filteredUser.password;
