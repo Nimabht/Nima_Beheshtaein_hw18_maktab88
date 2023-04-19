@@ -14,6 +14,8 @@ var store = new MongoDBStore({
   collection: "sessions",
 });
 
+console.log("AM i good?");
+
 const app = express();
 
 app.use(cookieParser());
