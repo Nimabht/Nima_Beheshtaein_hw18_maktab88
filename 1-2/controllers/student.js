@@ -39,7 +39,7 @@ export default {
         id: { [Op.ne]: req.student.id },
       },
     });
-    if (existingStudent) {
+    if (!!existingStudent) {
       const ex = new AppError(
         "Use another studentCode.",
         "fail",

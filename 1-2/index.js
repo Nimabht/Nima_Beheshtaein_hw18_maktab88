@@ -2,6 +2,7 @@ import "./database/load.js";
 import express from "express";
 import student from "./routes/student.js";
 import food from "./routes/food.js";
+import order from "./routes/order.js";
 import globalErrorHandler from "./middlewares/globalErrorHandler.js";
 
 const app = express();
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use("/api/student", student);
 app.use("/api/food", food);
+app.use("/api/order", order);
 
 app.use(globalErrorHandler);
 
